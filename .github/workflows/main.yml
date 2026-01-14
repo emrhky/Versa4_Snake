@@ -1,0 +1,31 @@
+name: Fitbit Build SDK 6.2
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16' # SDK 6.2-pre ve Versa 4 araçları için en kararlı sürüm
+
+      - name: Install Dependencies
+        run: |
+          npm install --ignore-scripts --legacy-peer-deps
+        # --legacy-peer-deps: Pre-release SDK'lardaki sürüm çakışmalarını önler
+        # --ignore-scripts: Güvenlik ve hız için bazı Fitbit scriptlerini atlar
+
+      - name: Build App
+        run: npx fitbit-build
+        # Bu komut 'hera' (Versa 4) ve 'atlas' (Sense 2) için .fba dosyasını oluşturur
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nokia-snake-build
+          path: build/*.fba
+          # Build klasöründeki .fba dosyasını GitHub paneline "Artifact" olarak yükler
