@@ -2,7 +2,7 @@
   "fitbit": {
     "appUUID": "b5c8d2a1-e9f4-4b4d-9a8c-7f6e5d4c3b2a",
     "appType": "app",
-    "appDisplayName": "Nokia Snake",
+    "appDisplayName": "Snake",
     "iconFile": "resources/icon.png",
     "wipeColor": "#94af1c",
     "requestedPermissions": [],
