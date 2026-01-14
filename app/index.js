@@ -2,7 +2,7 @@ import document from "document";
 import clock from "clock";
 import * as fs from "fs";
 
-// Oyun Alanı
+// Izgara Yapılandırması
 const GRID_SIZE = 15; 
 const ROWS = 19;      
 const COLS = 21;      
@@ -27,14 +27,14 @@ const lastScoreText = document.getElementById("last-score-text");
 const btnText = document.getElementById("btn-text");
 const btnStart = document.getElementById("btn-start");
 
-// Yüksek Skoru Güvenli Yükle
+// Yüksek Skoru Yükle
 try {
   if (fs.existsSync(HIGH_SCORE_FILE)) {
     const data = fs.readFileSync(HIGH_SCORE_FILE, "json");
-    highScore = data.score || 0;
+    highScore = Number(data.score) || 0;
   }
 } catch (e) { highScore = 0; }
-if(highScoreText) highScoreText.text = `EN YÜKSEK: ${highScore}`;
+if(highScoreText) highScoreText.text = "EN YÜKSEK: " + highScore;
 
 // Saat
 clock.granularity = "minutes";
@@ -45,10 +45,9 @@ clock.ontick = (evt) => {
   }
 };
 
-// Vücut parçalarını bir kez yükle (Bellek tasarrufu)
 const bodySegments = [];
 for (let i = 0; i < 30; i++) {
-  let seg = document.getElementById(`s${i}`);
+  let seg = document.getElementById("s" + i);
   if(seg) bodySegments.push(seg);
 }
 
@@ -75,54 +74,38 @@ function spawnFood() {
 
 function update() {
   const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
-
-  // Duvar Kontrolü
   if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) return endGame();
-  
-  // Kuyruk Kontrolü
   for (let i = 0; i < snake.length; i++) {
     if (snake[i].x === head.x && snake[i].y === head.y) return endGame();
   }
-
   snake.unshift(head);
-
   if (head.x === food.x && head.y === food.y) {
     score += 10;
-    if(scoreEl) scoreEl.text = `SKOR: ${score}`;
+    if(scoreEl) scoreEl.text = "SKOR: " + score;
     spawnFood();
-  } else {
-    snake.pop();
-  }
+  } else { snake.pop(); }
   draw();
 }
 
 function draw() {
-  // Sadece aktif yılanın boyu kadar döngü kur (Bellek dostu)
   bodySegments.forEach((seg, i) => {
     if (i < snake.length && i < 30) {
       seg.x = X_OFFSET + (snake[i].x * GRID_SIZE);
       seg.y = Y_OFFSET + (snake[i].y * GRID_SIZE);
       seg.style.display = "inline";
-    } else {
-      seg.style.display = "none";
-    }
+    } else { seg.style.display = "none"; }
   });
 }
 
 function endGame() {
-  if (gameLoop) {
-    clearInterval(gameLoop);
-    gameLoop = null;
-  }
-  
+  if (gameLoop) { clearInterval(gameLoop); gameLoop = null; }
   if (score > highScore) {
     highScore = score;
     try { fs.writeFileSync(HIGH_SCORE_FILE, { score: highScore }, "json"); } catch (e) {}
   }
-
-  if(highScoreText) highScoreText.text = `EN YÜKSEK: ${highScore}`;
+  if(highScoreText) highScoreText.text = "EN YÜKSEK: " + highScore;
   if(lastScoreText) {
-    lastScoreText.text = `SKORUN: ${score}`;
+    lastScoreText.text = "SKORUN: " + score;
     lastScoreText.style.display = "inline";
   }
   if(btnText) btnText.text = "YENİDEN DENE";
@@ -140,6 +123,5 @@ function resetGame() {
   gameLoop = setInterval(update, 250);
 }
 
-// İlk çizim
 spawnFood(); 
 draw();
