@@ -1,0 +1,14 @@
+{
+  "fitbit": {
+    "appUUID": "kendi-uuid-kodunuz-buraya",
+    "appType": "app",
+    "appDisplayName": "Nokia Snake",
+    "iconFile": "resources/icon.png",
+    "wipeColor": "#94af1c",
+    "requestedPermissions": [],
+    "buildTargets": [
+      "hera"
+    ],
+    "defaultLanguage": "en-US"
+  }
+}
