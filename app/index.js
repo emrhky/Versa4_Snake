@@ -2,7 +2,6 @@ import document from "document";
 import clock from "clock";
 import * as fs from "fs";
 
-// Izgara Ayarları
 const GRID_SIZE = 15; 
 const ROWS = 19;      
 const COLS = 21;      
@@ -29,7 +28,7 @@ const lastScoreText = document.getElementById("last-score-text");
 const btnText = document.getElementById("btn-text");
 const btnStart = document.getElementById("btn-start");
 
-// Yüksek Skoru ve Tarihi Yükle
+// Skor Yükle
 try {
   if (fs.existsSync(HIGH_SCORE_FILE)) {
     const data = fs.readFileSync(HIGH_SCORE_FILE, "json");
@@ -45,7 +44,7 @@ function updateHighScoreDisplay() {
 }
 updateHighScoreDisplay();
 
-// Saat Senkronizasyonu
+// Saat Güncelleme
 clock.granularity = "minutes";
 clock.ontick = (evt) => {
   let timeStr = ("0" + evt.date.getHours()).slice(-2) + ":" + ("0" + evt.date.getMinutes()).slice(-2);
@@ -53,7 +52,7 @@ clock.ontick = (evt) => {
   if (menuClock) menuClock.text = timeStr;
 };
 
-// Bellek Korumalı Boğum Dizisi
+// Bellek Dostu Boğumlar
 const bodySegments = [];
 for (let i = 0; i < 30; i++) {
   let seg = document.getElementById("s" + i);
@@ -122,8 +121,10 @@ function endGame() {
     lastScoreText.text = "SKORUN: " + score;
     lastScoreText.style.display = "inline";
   }
-  // YENİDEN DENE Düzeltmesi
-  if (btnText) btnText.text = "YENİDEN DENE";
+  
+  // BURASI KRİTİK: Buton metni burada dinamik olarak güncelleniyor.
+  if (btnText) btnText.text = "YENİDEN DENE"; 
+  
   if (menuContainer) menuContainer.style.display = "inline";
 }
 
