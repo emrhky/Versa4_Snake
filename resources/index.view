@@ -33,6 +33,6 @@
     <text id="last-score-text" x="50%" y="215" fill="#222222" font-size="22" text-anchor="middle" display="none" text-length="40">SKORUN: 0</text>
     
     <rect id="btn-start" x="15%" y="245" width="70%" height="55" rx="15" fill="#222222" pointer-events="all" />
-    <text id="btn-text" x="50%" y="282" fill="#94af1c" font-size="26" font-family="System-Bold" text-anchor="middle" pointer-events="none" text-length="12">OYUNA BAŞLA</text>
+    <text id="btn-text" x="50%" y="282" fill="#94af1c" font-size="26" font-family="System-Bold" text-anchor="middle" pointer-events="none" text-length="12">YENİ OYUN</text>
   </g>
 </svg>
