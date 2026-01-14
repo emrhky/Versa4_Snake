@@ -1,7 +1,8 @@
 <svg>
   <rect x="0" y="0" width="100%" height="100%" fill="#94af1c" />
   
-  <text id="score-text" x="50%" y="30" fill="#222222" font-size="28" font-family="System-Bold" text-anchor="middle">SKOR: 0</text>
+  <text id="clock-label" x="5%" y="32" fill="#222222" font-size="24" font-family="System-Bold" text-anchor="start">00:00</text>
+  <text id="score-text" x="95%" y="32" fill="#222222" font-size="24" font-family="System-Bold" text-anchor="end">SKOR: 0</text>
 
   <rect x="8" y="40" width="320" height="285" fill="none" stroke="#222222" stroke-width="2" />
 
