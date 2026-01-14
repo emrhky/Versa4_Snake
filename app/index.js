@@ -1,27 +1,26 @@
 import document from "document";
 
-// Oyun Ayarları
-const GRID_SIZE = 15; // Hücre boyutu
-const ROWS = 18;      // Dikey hücre sayısı
-const COLS = 21;      // Yatay hücre sayısı
-const X_OFFSET = 10;
-const Y_OFFSET = 42;
+// Izgara Yapılandırması (336x336 Ekran İçin)
+const GRID_SIZE = 15; 
+const ROWS = 18;      
+const COLS = 20;      
+const X_OFFSET = 18;
+const Y_OFFSET = 50;
 
 let snake = [{x: 10, y: 10}, {x: 10, y: 11}, {x: 10, y: 12}];
 let food = {x: 5, y: 5};
-let dir = {x: 0, y: -1}; // Başlangıç yönü: Yukarı
+let dir = {x: 0, y: -1}; // Yukarı
 let score = 0;
 let gameLoop = null;
 
-// Elementleri Bağla
 const foodEl = document.getElementById("food");
 const scoreEl = document.getElementById("score-text");
 const gameOverEl = document.getElementById("game-over");
 const finalScoreEl = document.getElementById("final-score");
 
-// Vücut Parçalarını Diziye Al
+// XML'deki 30 boğumu bir diziye alalım
 const bodySegments = [];
-for (let i = 0; i < 20; i++) { // XML'de tanımladığınız kadar
+for (let i = 0; i < 30; i++) {
   bodySegments.push(document.getElementById(`s${i}`));
 }
 
@@ -35,6 +34,7 @@ document.getElementById("btn-restart").onclick = () => { resetGame(); };
 function spawnFood() {
   food.x = Math.floor(Math.random() * COLS);
   food.y = Math.floor(Math.random() * ROWS);
+  // Yemin yılanın üzerine gelmediğinden emin olalım (opsiyonel)
   foodEl.x = X_OFFSET + (food.x * GRID_SIZE);
   foodEl.y = Y_OFFSET + (food.y * GRID_SIZE);
 }
@@ -42,13 +42,17 @@ function spawnFood() {
 function update() {
   const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
 
-  // Çarpışma Kontrolleri (Duvar ve Kendisi)
+  // Çarpışma Kontrolü: Duvarlar
   if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) return endGame();
-  for (let s of snake) if (s.x === head.x && s.y === head.y) return endGame();
+  
+  // Çarpışma Kontrolü: Kendi gövdesi
+  for (let i = 0; i < snake.length; i++) {
+    if (snake[i].x === head.x && snake[i].y === head.y) return endGame();
+  }
 
   snake.unshift(head);
 
-  // Yem Yeme
+  // Yem Yeme Kontrolü
   if (head.x === food.x && head.y === food.y) {
     score += 10;
     scoreEl.text = `SKOR: ${score}`;
@@ -56,15 +60,14 @@ function update() {
   } else {
     snake.pop();
   }
-
   draw();
 }
 
 function draw() {
-  // Tüm gövdeyi temizle/gizle
+  // Önce tüm boğumları gizle
   bodySegments.forEach(seg => { if(seg) seg.style.display = "none"; });
-
-  // Yılanı çiz
+  
+  // Yılanın güncel uzunluğunu çiz
   snake.forEach((part, i) => {
     if (bodySegments[i]) {
       bodySegments[i].style.display = "inline";
@@ -75,7 +78,7 @@ function draw() {
 }
 
 function endGame() {
-  clearInterval(gameLoop);
+  if (gameLoop) clearInterval(gameLoop);
   finalScoreEl.text = `SKOR: ${score}`;
   gameOverEl.style.display = "inline";
 }
@@ -88,8 +91,7 @@ function resetGame() {
   gameOverEl.style.display = "none";
   spawnFood();
   if (gameLoop) clearInterval(gameLoop);
-  gameLoop = setInterval(update, 250); // Hız (250ms ideal)
+  gameLoop = setInterval(update, 250); // Hız: 250ms
 }
 
-// Başlat
 resetGame();
