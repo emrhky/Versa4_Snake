@@ -9,50 +9,29 @@
   <rect id="food" x="0" y="0" width="14" height="14" fill="#222222" />
 
   <g id="snake-body">
-    <rect id="s0" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s1" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s2" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s3" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s4" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s5" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s6" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s7" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s8" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s9" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s10" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s11" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s12" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s13" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s14" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s15" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s16" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s17" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s18" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s19" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s20" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s21" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s22" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s23" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s24" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s25" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s26" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s27" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s28" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s29" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s0" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s1" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s2" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s3" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s4" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s5" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s6" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s7" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s8" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s9" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s10" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s11" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s12" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s13" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s14" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s15" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s16" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s17" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s18" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s19" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s20" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s21" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s22" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s23" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s24" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s25" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s26" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s27" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s28" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s29" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
   </g>
 
-  <rect id="up" x="20%" y="40" width="60%" height="25%" fill="white" opacity="0" pointer-events="all" />
-  <rect id="down" x="20%" y="75%" width="60%" height="25%" fill="white" opacity="0" pointer-events="all" />
-  <rect id="left" x="0" y="25%" width="20%" height="50%" fill="white" opacity="0" pointer-events="all" />
-  <rect id="right" x="80%" y="25%" width="20%" height="50%" fill="white" opacity="0" pointer-events="all" />
+  <rect id="up" x="0" y="0" width="100%" height="25%" fill="white" opacity="0" pointer-events="all" />
+  <rect id="down" x="0" y="75%" width="100%" height="25%" fill="white" opacity="0" pointer-events="all" />
+  <rect id="left" x="0" y="0" width="25%" height="100%" fill="white" opacity="0" pointer-events="all" />
+  <rect id="right" x="75%" y="0" width="25%" height="100%" fill="white" opacity="0" pointer-events="all" />
 
-  <g id="menu-container" display="inline">
+  <g id="menu-container" display="inline" pointer-events="all">
     <rect x="0" y="0" width="100%" height="100%" fill="#94af1c" />
-    <text id="menu-title" x="50%" y="35%" fill="#222222" font-size="40" font-family="System-Bold" text-anchor="middle">SNAKE</text>
+    
+    <text id="menu-title" x="42%" y="35%" fill="#222222" font-size="40" font-family="System-Bold" text-anchor="middle">SNAKE</text>
+    <g transform="translate(20, -15)"> <rect x="55%" y="32%" width="14" height="14" fill="#222222" />
+        <rect x="59%" y="32%" width="14" height="14" fill="#222222" />
+        <rect x="63%" y="32%" width="14" height="14" fill="#222222" />
+        <rect x="63%" y="36%" width="14" height="14" fill="#222222" />
+        <rect x="59%" y="36%" width="14" height="14" fill="#222222" />
+    </g>
+
     <text id="high-score-text" x="50%" y="50%" fill="#222222" font-size="24" text-anchor="middle">EN YÜKSEK: 0</text>
     <text id="last-score-text" x="50%" y="60%" fill="#222222" font-size="24" text-anchor="middle" display="none">SKORUN: 0</text>
     
     <rect id="btn-start" x="20%" y="70%" width="60%" height="50" rx="15" fill="#222222" pointer-events="all" />
-    <text id="btn-text" x="50%" y="82%" fill="#94af1c" font-size="24" text-anchor="middle" pointer-events="none">OYUNA BAŞLA</text>
+    <text id="btn-text" x="50%" y="77.5%" fill="#94af1c" font-size="24" text-anchor="middle" dominant-baseline="middle" pointer-events="none">OYUNA BAŞLA</text>
   </g>
 </svg>
