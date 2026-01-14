@@ -40,12 +40,12 @@ try {
 
 function updateHighScoreDisplay() {
   if (highScoreText) {
-    highScoreText.text = `EN YÜKSEK: ${highScore} ${highScoreDate ? "(" + highScoreDate + ")" : ""}`;
+    highScoreText.text = "EN YÜKSEK: " + highScore + (highScoreDate ? " (" + highScoreDate + ")" : "");
   }
 }
 updateHighScoreDisplay();
 
-// Saat
+// Saat Senkronizasyonu
 clock.granularity = "minutes";
 clock.ontick = (evt) => {
   let timeStr = ("0" + evt.date.getHours()).slice(-2) + ":" + ("0" + evt.date.getMinutes()).slice(-2);
@@ -53,7 +53,7 @@ clock.ontick = (evt) => {
   if (menuClock) menuClock.text = timeStr;
 };
 
-// Bellek Sorununu Çözen Optimize Dizi
+// Bellek Korumalı Boğum Dizisi
 const bodySegments = [];
 for (let i = 0; i < 30; i++) {
   let seg = document.getElementById("s" + i);
@@ -95,7 +95,6 @@ function update() {
   draw();
 }
 
-// Bellek Dostu Çizim (Hata engelleyici kodlar duruyor)
 function draw() {
   bodySegments.forEach((seg, i) => {
     if (i < snake.length && i < 30) {
@@ -123,6 +122,7 @@ function endGame() {
     lastScoreText.text = "SKORUN: " + score;
     lastScoreText.style.display = "inline";
   }
+  // YENİDEN DENE Düzeltmesi
   if (btnText) btnText.text = "YENİDEN DENE";
   if (menuContainer) menuContainer.style.display = "inline";
 }
