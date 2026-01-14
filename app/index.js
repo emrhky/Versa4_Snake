@@ -28,7 +28,6 @@ const lastScoreText = document.getElementById("last-score-text");
 const btnText = document.getElementById("btn-text");
 const btnStart = document.getElementById("btn-start");
 
-// Skor Yükle
 try {
   if (fs.existsSync(HIGH_SCORE_FILE)) {
     const data = fs.readFileSync(HIGH_SCORE_FILE, "json");
@@ -44,7 +43,6 @@ function updateHighScoreDisplay() {
 }
 updateHighScoreDisplay();
 
-// Saat Güncelleme
 clock.granularity = "minutes";
 clock.ontick = (evt) => {
   let timeStr = ("0" + evt.date.getHours()).slice(-2) + ":" + ("0" + evt.date.getMinutes()).slice(-2);
@@ -52,7 +50,6 @@ clock.ontick = (evt) => {
   if (menuClock) menuClock.text = timeStr;
 };
 
-// Bellek Dostu Boğumlar
 const bodySegments = [];
 for (let i = 0; i < 30; i++) {
   let seg = document.getElementById("s" + i);
@@ -122,8 +119,8 @@ function endGame() {
     lastScoreText.style.display = "inline";
   }
   
-  // BURASI KRİTİK: Buton metni burada dinamik olarak güncelleniyor.
-  if (btnText) btnText.text = "YENİDEN DENE"; 
+  // DÜZELTME: "YENİ OYUN" yazıldı.
+  if (btnText) btnText.text = "YENİ OYUN"; 
   
   if (menuContainer) menuContainer.style.display = "inline";
 }
