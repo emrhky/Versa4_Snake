@@ -3,39 +3,52 @@
   
   <text id="score-text" x="50%" y="30" fill="#222222" font-size="28" font-family="System-Bold" text-anchor="middle">SKOR: 0</text>
 
-  <rect x="8" y="40" width="320" height="280" fill="none" stroke="#222222" stroke-width="2" />
+  <rect x="8" y="40" width="320" height="285" fill="none" stroke="#222222" stroke-width="2" />
 
   <rect id="food" x="0" y="0" width="14" height="14" fill="#222222" />
 
-  <rect id="s0" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s1" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s2" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s3" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s4" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s5" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s6" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s7" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s8" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s9" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s10" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s11" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s12" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s13" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s14" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s15" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s16" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s17" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s18" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="s19" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-  <rect id="up" x="25%" y="40" width="50%" height="25%" fill="black" opacity="0" pointer-events="all" />
-  <rect id="down" x="25%" y="75%" width="50%" height="25%" fill="black" opacity="0" pointer-events="all" />
-  <rect id="left" x="0" y="25%" width="25%" height="50%" fill="black" opacity="0" pointer-events="all" />
-  <rect id="right" x="75%" y="25%" width="25%" height="50%" fill="black" opacity="0" pointer-events="all" />
+  <g id="snake-body">
+    <rect id="s0" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s1" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s2" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s3" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s4" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s5" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s6" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s7" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s8" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s9" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s10" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s11" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s12" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s13" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s14" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s15" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s16" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s17" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s18" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s19" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s20" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s21" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s22" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s23" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s24" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s25" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s26" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s27" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s28" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s29" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+  </g>
+
+  <rect id="up" x="20%" y="40" width="60%" height="25%" fill="white" opacity="0" pointer-events="all" />
+  <rect id="down" x="20%" y="75%" width="60%" height="25%" fill="white" opacity="0" pointer-events="all" />
+  <rect id="left" x="0" y="25%" width="20%" height="50%" fill="white" opacity="0" pointer-events="all" />
+  <rect id="right" x="80%" y="25%" width="20%" height="50%" fill="white" opacity="0" pointer-events="all" />
 
   <rect id="game-over" x="0" y="0" width="100%" height="100%" fill="#94af1c" display="none" pointer-events="all">
-    <text x="50%" y="40%" fill="#222222" font-size="45" text-anchor="middle">OYUN BİTTİ</text>
+    <text x="50%" y="40%" fill="#222222" font-size="40" font-family="System-Bold" text-anchor="middle">OYUN BİTTİ</text>
     <text id="final-score" x="50%" y="55%" fill="#222222" font-size="30" text-anchor="middle">SKOR: 0</text>
-    <rect id="btn-restart" x="20%" y="70%" width="60%" height="50" rx="10" fill="#222222" />
-    <text x="50%" y="82%" fill="#94af1c" font-size="24" text-anchor="middle">TEKRAR</text>
+    <rect id="btn-restart" x="20%" y="70%" width="60%" height="50" rx="15" fill="#222222" />
+    <text x="50%" y="82%" fill="#94af1c" font-size="24" text-anchor="middle" pointer-events="none">YENİDEN DENE</text>
   </rect>
 </svg>
