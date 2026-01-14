@@ -1,4 +1,5 @@
 import document from "document";
+import clock from "clock";
 
 // Izgara Yapılandırması (336x336 Ekran İçin)
 const GRID_SIZE = 15; 
@@ -13,10 +14,20 @@ let dir = {x: 0, y: -1};
 let score = 0;
 let gameLoop = null;
 
+const clockLabel = document.getElementById("clock-label");
 const foodEl = document.getElementById("food");
 const scoreEl = document.getElementById("score-text");
 const gameOverContainer = document.getElementById("game-over-container");
 const finalScoreEl = document.getElementById("final-score");
+
+// Saat Fonksiyonu
+clock.granularity = "minutes";
+clock.ontick = (evt) => {
+  let today = evt.date;
+  let hours = today.getHours();
+  let mins = today.getMinutes();
+  clockLabel.text = `${("0" + hours).slice(-2)}:${("0" + mins).slice(-2)}`;
+};
 
 const bodySegments = [];
 for (let i = 0; i < 30; i++) {
