@@ -2,7 +2,6 @@ import document from "document";
 import clock from "clock";
 import * as fs from "fs";
 
-// Izgara Yapılandırması
 const GRID_SIZE = 15; 
 const ROWS = 19;      
 const COLS = 21;      
@@ -23,7 +22,6 @@ const foodEl = document.getElementById("food");
 const scoreEl = document.getElementById("score-text");
 
 const menuContainer = document.getElementById("menu-container");
-const menuTitle = document.getElementById("menu-title");
 const highScoreText = document.getElementById("high-score-text");
 const lastScoreText = document.getElementById("last-score-text");
 const btnText = document.getElementById("btn-text");
@@ -35,9 +33,7 @@ try {
     const data = fs.readFileSync(HIGH_SCORE_FILE, "json");
     highScore = data.score || 0;
   }
-} catch (e) {
-  highScore = 0;
-}
+} catch (e) { highScore = 0; }
 highScoreText.text = `EN YÜKSEK: ${highScore}`;
 
 // Saat
@@ -58,9 +54,7 @@ document.getElementById("down").onclick = () => { if(dir.y === 0) dir = {x: 0, y
 document.getElementById("left").onclick = () => { if(dir.x === 0) dir = {x: -1, y: 0}; };
 document.getElementById("right").onclick = () => { if(dir.x === 0) dir = {x: 1, y: 0}; };
 
-btnStart.onclick = () => {
-  resetGame();
-};
+btnStart.onclick = () => { resetGame(); };
 
 function spawnFood() {
   food.x = Math.floor(Math.random() * COLS);
@@ -71,21 +65,16 @@ function spawnFood() {
 
 function update() {
   const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
-
   if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) return endGame();
   for (let i = 0; i < snake.length; i++) {
     if (snake[i].x === head.x && snake[i].y === head.y) return endGame();
   }
-
   snake.unshift(head);
-
   if (head.x === food.x && head.y === food.y) {
     score += 10;
     scoreEl.text = `SKOR: ${score}`;
     spawnFood();
-  } else {
-    snake.pop();
-  }
+  } else { snake.pop(); }
   draw();
 }
 
@@ -102,15 +91,10 @@ function draw() {
 
 function endGame() {
   if (gameLoop) clearInterval(gameLoop);
-  
   if (score > highScore) {
     highScore = score;
-    try {
-      fs.writeFileSync(HIGH_SCORE_FILE, { score: highScore }, "json");
-    } catch (e) {}
+    try { fs.writeFileSync(HIGH_SCORE_FILE, { score: highScore }, "json"); } catch (e) {}
   }
-
-  menuTitle.text = "OYUN BİTTİ";
   highScoreText.text = `EN YÜKSEK: ${highScore}`;
   lastScoreText.text = `SKORUN: ${score}`;
   lastScoreText.style.display = "inline";
