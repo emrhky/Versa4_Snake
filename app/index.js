@@ -2,7 +2,6 @@ import document from "document";
 import clock from "clock";
 import * as fs from "fs";
 
-// Izgara Yapılandırması
 const GRID_SIZE = 15; 
 const ROWS = 19;      
 const COLS = 21;      
@@ -19,6 +18,7 @@ let highScore = 0;
 let gameLoop = null;
 
 const clockLabel = document.getElementById("clock-label");
+const menuClock = document.getElementById("menu-clock");
 const foodEl = document.getElementById("food");
 const scoreEl = document.getElementById("score-text");
 const menuContainer = document.getElementById("menu-container");
@@ -36,13 +36,12 @@ try {
 } catch (e) { highScore = 0; }
 if(highScoreText) highScoreText.text = "EN YÜKSEK: " + highScore;
 
-// Saat
+// Saat Güncelleme (Her iki etiket için)
 clock.granularity = "minutes";
 clock.ontick = (evt) => {
-  if(clockLabel) {
-    let today = evt.date;
-    clockLabel.text = ("0" + today.getHours()).slice(-2) + ":" + ("0" + today.getMinutes()).slice(-2);
-  }
+  let timeStr = ("0" + evt.date.getHours()).slice(-2) + ":" + ("0" + evt.date.getMinutes()).slice(-2);
+  if(clockLabel) clockLabel.text = timeStr;
+  if(menuClock) menuClock.text = timeStr;
 };
 
 const bodySegments = [];
@@ -51,7 +50,6 @@ for (let i = 0; i < 30; i++) {
   if(seg) bodySegments.push(seg);
 }
 
-// Kontrol Fonksiyonu
 const setDir = (x, y) => {
   if (dir.x !== -x && dir.y !== -y) dir = {x, y};
 };
@@ -80,7 +78,7 @@ function update() {
   }
   snake.unshift(head);
   if (head.x === food.x && head.y === food.y) {
-    score += 10;
+    score += 1; // 1'er arttıracak şekilde güncellendi
     if(scoreEl) scoreEl.text = "SKOR: " + score;
     spawnFood();
   } else { snake.pop(); }
