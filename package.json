@@ -1,5 +1,5 @@
 {
-  "name": "snake-v4-sense2",
+  "name": "snake-v5-stable",
   "version": "1.0.0",
   "private": true,
   "license": "UNLICENSED",
@@ -16,7 +16,7 @@
     "requestedPermissions": [],
     "buildTargets": [
       "hera",
-      "atlas"
+      "rhea"
     ],
     "defaultLanguage": "en-US"
   }
