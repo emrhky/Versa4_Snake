@@ -22,7 +22,6 @@ const clockLabel = document.getElementById("clock-label");
 const foodEl = document.getElementById("food");
 const scoreEl = document.getElementById("score-text");
 
-// Menü Elemanları
 const menuContainer = document.getElementById("menu-container");
 const menuTitle = document.getElementById("menu-title");
 const highScoreText = document.getElementById("high-score-text");
@@ -30,7 +29,7 @@ const lastScoreText = document.getElementById("last-score-text");
 const btnText = document.getElementById("btn-text");
 const btnStart = document.getElementById("btn-start");
 
-// Yüksek Skoru Dosyadan Yükle
+// Yüksek Skoru Yükle
 try {
   if (fs.existsSync(HIGH_SCORE_FILE)) {
     const data = fs.readFileSync(HIGH_SCORE_FILE, "json");
@@ -41,7 +40,7 @@ try {
 }
 highScoreText.text = `EN YÜKSEK: ${highScore}`;
 
-// Saat Fonksiyonu
+// Saat
 clock.granularity = "minutes";
 clock.ontick = (evt) => {
   let today = evt.date;
@@ -59,7 +58,6 @@ document.getElementById("down").onclick = () => { if(dir.y === 0) dir = {x: 0, y
 document.getElementById("left").onclick = () => { if(dir.x === 0) dir = {x: -1, y: 0}; };
 document.getElementById("right").onclick = () => { if(dir.x === 0) dir = {x: 1, y: 0}; };
 
-// Başlat Butonu
 btnStart.onclick = () => {
   resetGame();
 };
@@ -105,7 +103,6 @@ function draw() {
 function endGame() {
   if (gameLoop) clearInterval(gameLoop);
   
-  // Yüksek Skor Kontrolü ve Kaydetme
   if (score > highScore) {
     highScore = score;
     try {
@@ -132,6 +129,5 @@ function resetGame() {
   gameLoop = setInterval(update, 250);
 }
 
-// Başlangıçta sadece saati güncelle ve menüyü göster (update/resetGame çağrılmıyor)
 spawnFood(); 
 draw();
