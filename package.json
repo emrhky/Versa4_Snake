@@ -1,5 +1,5 @@
 {
-  "name": "nokia-snake-v4",
+  "name": "snake-v4-sense2",
   "version": "1.0.0",
   "private": true,
   "license": "UNLICENSED",
@@ -13,10 +13,7 @@
     "appDisplayName": "Snake",
     "iconFile": "resources/icon.png",
     "wipeColor": "#94af1c",
-    "requestedPermissions": [
-      "access_internet",
-      "run_background"
-    ],
+    "requestedPermissions": [],
     "buildTargets": [
       "hera",
       "atlas"
