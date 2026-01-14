@@ -3,10 +3,10 @@ import clock from "clock";
 
 // Izgara Yapılandırması (336x336 Ekran İçin)
 const GRID_SIZE = 15; 
-const ROWS = 18;      
-const COLS = 20;      
-const X_OFFSET = 18;
-const Y_OFFSET = 50;
+const ROWS = 19;      // 19 * 15 = 285px (Çerçeve yüksekliği)
+const COLS = 21;      // 21 * 15 = 315px (Çerçeve genişliği yaklaşık)
+const X_OFFSET = 10;
+const Y_OFFSET = 40;  // Çerçevenin y pozisyonuyla eşitlendi
 
 let snake = [{x: 10, y: 10}, {x: 10, y: 11}, {x: 10, y: 12}];
 let food = {x: 5, y: 5};
@@ -24,9 +24,7 @@ const finalScoreEl = document.getElementById("final-score");
 clock.granularity = "minutes";
 clock.ontick = (evt) => {
   let today = evt.date;
-  let hours = today.getHours();
-  let mins = today.getMinutes();
-  clockLabel.text = `${("0" + hours).slice(-2)}:${("0" + mins).slice(-2)}`;
+  clockLabel.text = ("0" + today.getHours()).slice(-2) + ":" + ("0" + today.getMinutes()).slice(-2);
 };
 
 const bodySegments = [];
@@ -51,7 +49,10 @@ function spawnFood() {
 function update() {
   const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
 
+  // Çarpışma Kontrolü (Kenarlar)
   if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) return endGame();
+  
+  // Çarpışma Kontrolü (Gövde)
   for (let i = 0; i < snake.length; i++) {
     if (snake[i].x === head.x && snake[i].y === head.y) return endGame();
   }
