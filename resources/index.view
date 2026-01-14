@@ -45,10 +45,11 @@
   <rect id="left" x="0" y="25%" width="20%" height="50%" fill="white" opacity="0" pointer-events="all" />
   <rect id="right" x="80%" y="25%" width="20%" height="50%" fill="white" opacity="0" pointer-events="all" />
 
-  <rect id="game-over" x="0" y="0" width="100%" height="100%" fill="#94af1c" display="none" pointer-events="all">
+  <g id="game-over-container" display="none">
+    <rect x="0" y="0" width="100%" height="100%" fill="#94af1c" />
     <text x="50%" y="40%" fill="#222222" font-size="40" font-family="System-Bold" text-anchor="middle">OYUN BİTTİ</text>
     <text id="final-score" x="50%" y="55%" fill="#222222" font-size="30" text-anchor="middle">SKOR: 0</text>
-    <rect id="btn-restart" x="20%" y="70%" width="60%" height="50" rx="15" fill="#222222" />
+    <rect id="btn-restart" x="20%" y="70%" width="60%" height="50" rx="15" fill="#222222" pointer-events="all" />
     <text x="50%" y="82%" fill="#94af1c" font-size="24" text-anchor="middle" pointer-events="none">YENİDEN DENE</text>
-  </rect>
+  </g>
 </svg>
