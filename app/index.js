@@ -2,6 +2,7 @@ import document from "document";
 import clock from "clock";
 import * as fs from "fs";
 
+// Izgara Ayarları
 const GRID_SIZE = 15; 
 const ROWS = 19;      
 const COLS = 21;      
@@ -15,6 +16,7 @@ let food = {x: 5, y: 5};
 let dir = {x: 0, y: -1}; 
 let score = 0;
 let highScore = 0;
+let highScoreDate = "";
 let gameLoop = null;
 
 const clockLabel = document.getElementById("clock-label");
@@ -27,27 +29,35 @@ const lastScoreText = document.getElementById("last-score-text");
 const btnText = document.getElementById("btn-text");
 const btnStart = document.getElementById("btn-start");
 
-// Yüksek Skoru Yükle
+// Yüksek Skoru ve Tarihi Yükle
 try {
   if (fs.existsSync(HIGH_SCORE_FILE)) {
     const data = fs.readFileSync(HIGH_SCORE_FILE, "json");
-    highScore = Number(data.score) || 0;
+    highScore = data.score || 0;
+    highScoreDate = data.date || "";
   }
-} catch (e) { highScore = 0; }
-if(highScoreText) highScoreText.text = "EN YÜKSEK: " + highScore;
+} catch (e) { highScore = 0; highScoreDate = ""; }
 
-// Saat Güncelleme (Her iki etiket için)
+function updateHighScoreDisplay() {
+  if (highScoreText) {
+    highScoreText.text = `EN YÜKSEK: ${highScore} ${highScoreDate ? "(" + highScoreDate + ")" : ""}`;
+  }
+}
+updateHighScoreDisplay();
+
+// Saat
 clock.granularity = "minutes";
 clock.ontick = (evt) => {
   let timeStr = ("0" + evt.date.getHours()).slice(-2) + ":" + ("0" + evt.date.getMinutes()).slice(-2);
-  if(clockLabel) clockLabel.text = timeStr;
-  if(menuClock) menuClock.text = timeStr;
+  if (clockLabel) clockLabel.text = timeStr;
+  if (menuClock) menuClock.text = timeStr;
 };
 
+// Bellek Sorununu Çözen Optimize Dizi
 const bodySegments = [];
 for (let i = 0; i < 30; i++) {
   let seg = document.getElementById("s" + i);
-  if(seg) bodySegments.push(seg);
+  if (seg) bodySegments.push(seg);
 }
 
 const setDir = (x, y) => {
@@ -59,12 +69,12 @@ document.getElementById("down").onclick = () => setDir(0, 1);
 document.getElementById("left").onclick = () => setDir(-1, 0);
 document.getElementById("right").onclick = () => setDir(1, 0);
 
-if(btnStart) btnStart.onclick = () => resetGame();
+if (btnStart) btnStart.onclick = () => resetGame();
 
 function spawnFood() {
   food.x = Math.floor(Math.random() * COLS);
   food.y = Math.floor(Math.random() * ROWS);
-  if(foodEl) {
+  if (foodEl) {
     foodEl.x = X_OFFSET + (food.x * GRID_SIZE);
     foodEl.y = Y_OFFSET + (food.y * GRID_SIZE);
   }
@@ -78,13 +88,14 @@ function update() {
   }
   snake.unshift(head);
   if (head.x === food.x && head.y === food.y) {
-    score += 1; // 1'er arttıracak şekilde güncellendi
-    if(scoreEl) scoreEl.text = "SKOR: " + score;
+    score += 1;
+    if (scoreEl) scoreEl.text = "SKOR: " + score;
     spawnFood();
   } else { snake.pop(); }
   draw();
 }
 
+// Bellek Dostu Çizim (Hata engelleyici kodlar duruyor)
 function draw() {
   bodySegments.forEach((seg, i) => {
     if (i < snake.length && i < 30) {
@@ -97,25 +108,31 @@ function draw() {
 
 function endGame() {
   if (gameLoop) { clearInterval(gameLoop); gameLoop = null; }
+  
   if (score > highScore) {
     highScore = score;
-    try { fs.writeFileSync(HIGH_SCORE_FILE, { score: highScore }, "json"); } catch (e) {}
+    const now = new Date();
+    highScoreDate = ("0" + now.getDate()).slice(-2) + "/" + ("0" + (now.getMonth() + 1)).slice(-2) + "/" + now.getFullYear();
+    try {
+      fs.writeFileSync(HIGH_SCORE_FILE, { score: highScore, date: highScoreDate }, "json");
+    } catch (e) {}
   }
-  if(highScoreText) highScoreText.text = "EN YÜKSEK: " + highScore;
-  if(lastScoreText) {
+
+  updateHighScoreDisplay();
+  if (lastScoreText) {
     lastScoreText.text = "SKORUN: " + score;
     lastScoreText.style.display = "inline";
   }
-  if(btnText) btnText.text = "YENİDEN DENE";
-  if(menuContainer) menuContainer.style.display = "inline";
+  if (btnText) btnText.text = "YENİDEN DENE";
+  if (menuContainer) menuContainer.style.display = "inline";
 }
 
 function resetGame() {
   snake = [{x: 10, y: 10}, {x: 10, y: 11}, {x: 10, y: 12}];
   dir = {x: 0, y: -1};
   score = 0;
-  if(scoreEl) scoreEl.text = "SKOR: 0";
-  if(menuContainer) menuContainer.style.display = "none";
+  if (scoreEl) scoreEl.text = "SKOR: 0";
+  if (menuContainer) menuContainer.style.display = "none";
   spawnFood();
   if (gameLoop) clearInterval(gameLoop);
   gameLoop = setInterval(update, 250);
