@@ -6,8 +6,8 @@
 
   <rect x="0" y="0" width="100%" height="100%" fill="#94af1c" />
   
-  <text id="clock-label" x="12%" y="20" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="start">00:00</text>
-  <text id="score-text" x="85%" y="20" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="end" text-length="20">SKOR: 0</text>
+  <text id="clock-label" x="25%" y="20" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle">00:00</text>
+  <text id="score-text" x="75%" y="20" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle" text-length="20">SKOR: 0</text>
 
   <rect x="8" y="25" width="320" height="300" fill="none" stroke="#222222" stroke-width="2" />
   <rect id="food" x="0" y="0" width="14" height="14" fill="#222222" />
@@ -28,10 +28,9 @@
   <g id="menu-container" display="inline">
     <rect x="0" y="0" width="100%" height="100%" fill="#94af1c" pointer-events="visible" />
     
-    <text id="menu-clock" x="12%" y="20" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="start">00:00</text>
+    <text id="menu-clock" x="25%" y="20" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle">00:00</text>
     
     <text x="40%" y="80" fill="#222222" font-size="44" font-family="System-Bold" text-anchor="middle">SNAKE</text>
-    
     <g transform="translate(235, 45)">
         <rect x="0" y="0" width="13" height="13" fill="#222222" />
         <rect x="14" y="0" width="13" height="13" fill="#222222" />
@@ -42,14 +41,15 @@
     
     <g id="btn-mode" pointer-events="all">
         <rect x="20%" y="110" width="60%" height="60" fill="white" opacity="0" />
-        
         <text x="50%" y="130" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle">OYUN MODU</text>
         
-        <text id="mode-value" x="50%" y="160" fill="#222222" font-size="24" text-anchor="middle">KLASİK</text>
+        <text id="mode-value" x="50%" y="160" fill="#222222" font-size="24" text-anchor="middle" text-length="32">KLASİK</text>
     </g>
 
-    <text id="high-score-text" x="50%" y="210" fill="#222222" font-size="20" text-anchor="middle" text-length="40">REKOR (KLASİK): 0</text>
-    <text id="last-score-text" x="50%" y="235" fill="#222222" font-size="20" text-anchor="middle" display="none" text-length="40">SKORUN: 0</text>
+    <text id="record-classic" x="50%" y="195" fill="#222222" font-size="20" text-anchor="middle" text-length="40">KLASİK: 0</text>
+    <text id="record-nowall" x="50%" y="220" fill="#222222" font-size="20" text-anchor="middle" text-length="40">DUVARSIZ: 0</text>
+    
+    <text id="last-score-text" x="50%" y="245" fill="#222222" font-size="20" text-anchor="middle" display="none" text-length="40">SKORUN: 0</text>
     
     <g id="btn-start" pointer-events="all">
       <rect x="15%" y="255" width="70%" height="55" rx="15" fill="#222222" />
