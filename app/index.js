@@ -1,7 +1,8 @@
 import document from "document";
 import clock from "clock";
 import * as fs from "fs";
-import { me } from "appbit"; // Uygulama durumunu takip etmek için eklendi
+import { me } from "appbit";
+import * as messaging from "messaging"; // Mesajlaşma eklendi
 
 // AYARLAR
 const GRID_SIZE = 15; 
@@ -12,7 +13,7 @@ const Y_OFFSET = 40;
 const MAX_SNAKE_LENGTH = 50; 
 
 const HIGH_SCORE_FILE = "highscore.json";
-const STATE_FILE = "gamestate.json"; // Oyunun anlık durumunu tutacak dosya
+const STATE_FILE = "gamestate.json";
 
 // DEĞİŞKENLER
 let snake = [{x: 10, y: 10}, {x: 10, y: 11}, {x: 10, y: 12}];
@@ -22,7 +23,7 @@ let score = 0;
 let highScore = 0;
 let highScoreDate = "";
 let gameLoop = null;
-let isGameRunning = false; // Oyunun oynanıp oynanmadığını takip eder
+let isGameRunning = false;
 
 // ELEMENTLER
 const clockLabel = document.getElementById("clock-label");
@@ -35,21 +36,62 @@ const lastScoreText = document.getElementById("last-score-text");
 const btnText = document.getElementById("btn-text");
 const btnStart = document.getElementById("btn-start");
 
-// EN YÜKSEK SKORU YÜKLE
-try {
-  if (fs.existsSync(HIGH_SCORE_FILE)) {
-    const data = fs.readFileSync(HIGH_SCORE_FILE, "json");
-    highScore = data.score || 0;
-    highScoreDate = data.date || "";
+// --- SKOR YÖNETİMİ (DOSYA + TELEFON SENKRONİZASYONU) ---
+function loadLocalHighScore() {
+  try {
+    if (fs.existsSync(HIGH_SCORE_FILE)) {
+      const data = fs.readFileSync(HIGH_SCORE_FILE, "json");
+      highScore = data.score || 0;
+      highScoreDate = data.date || "";
+    }
+  } catch (e) { highScore = 0; highScoreDate = ""; }
+  updateHighScoreDisplay();
+}
+
+// Başlangıçta yerel dosyayı oku
+loadLocalHighScore();
+
+// Telefondan daha yüksek skor var mı diye sor
+messaging.peerSocket.onopen = () => {
+  messaging.peerSocket.send({ command: "GET_HIGHSCORE" });
+};
+
+// Telefondan cevap gelince
+messaging.peerSocket.onmessage = (evt) => {
+  if (evt.data && evt.data.command === "RESTORE_HIGHSCORE") {
+    // Eğer telefondaki skor, saatteki skordan büyükse güncelle
+    if (evt.data.score > highScore) {
+      highScore = evt.data.score;
+      highScoreDate = evt.data.date;
+      // Yerel dosyayı da güncelle ki telefon bağlantısı koparsa elde dursun
+      saveHighScoreLocal();
+      updateHighScoreDisplay();
+    }
   }
-} catch (e) { highScore = 0; highScoreDate = ""; }
+};
+
+function saveHighScoreLocal() {
+  try {
+    fs.writeFileSync(HIGH_SCORE_FILE, { score: highScore, date: highScoreDate }, "json");
+  } catch (e) {}
+}
+
+function sendHighScoreToPhone() {
+  if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
+    messaging.peerSocket.send({
+      command: "SAVE_HIGHSCORE",
+      score: highScore,
+      date: highScoreDate
+    });
+  }
+}
+// -------------------------------------------------------
 
 function updateHighScoreDisplay() {
   if (highScoreText) {
     highScoreText.text = "EN YÜKSEK: " + highScore + (highScoreDate ? " (" + highScoreDate + ")" : "");
   }
 }
-updateHighScoreDisplay();
 
 // SAAT AYARLARI
 clock.granularity = "minutes";
@@ -105,7 +147,6 @@ function spawnFood(newLocation = true) {
 function update() {
   const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
   
-  // Çarpışma Kontrolleri
   if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) return endGame();
   for (let i = 0; i < snake.length; i++) {
     if (snake[i].x === head.x && snake[i].y === head.y) return endGame();
@@ -136,10 +177,9 @@ function draw() {
   });
 }
 
-// OYUNU KAYDET (Bildirim gelince veya çıkınca çalışır)
+// OYUN DURUMUNU KAYDET (Kaldığı yerden devam için)
 function saveState() {
   if (isGameRunning) {
-    // Sadece oyun devam ediyorsa kaydet
     const gameState = {
       snake: snake,
       food: food,
@@ -150,14 +190,12 @@ function saveState() {
       fs.writeFileSync(STATE_FILE, gameState, "json");
     } catch (e) { console.log("Kayıt hatası: " + e); }
   } else {
-    // Oyun zaten bitmişse kayıt dosyasını sil ki sonraki açılışta menü gelsin
     try {
       if (fs.existsSync(STATE_FILE)) fs.unlinkSync(STATE_FILE);
     } catch (e) {}
   }
 }
 
-// KAYITLI OYUNU YÜKLE
 function loadState() {
   try {
     if (fs.existsSync(STATE_FILE)) {
@@ -167,32 +205,29 @@ function loadState() {
       dir = data.dir;
       score = data.score;
       
-      // Oyunu devam ettir
       if (scoreEl) scoreEl.text = "SKOR: " + score;
       if (menuContainer) menuContainer.style.display = "none";
       
       isGameRunning = true;
-      spawnFood(false); // Yeni yem üretme, eskisini çiz
+      spawnFood(false); 
       draw();
       
       if (gameLoop) clearInterval(gameLoop);
       gameLoop = setInterval(update, 250);
-      return true; // Başarıyla yüklendi
+      return true;
     }
   } catch (e) { console.log("Yükleme hatası: " + e); }
-  return false; // Kayıt yok
+  return false;
 }
 
-// UYGULAMA KAPANDIĞINDA TETİKLENİR
 me.onunload = () => {
   saveState();
 };
 
 function endGame() {
-  isGameRunning = false; // Oyun bitti
+  isGameRunning = false; 
   if (gameLoop) { clearInterval(gameLoop); gameLoop = null; }
   
-  // Oyun bittiği için kayıt dosyasını temizle
   try {
     if (fs.existsSync(STATE_FILE)) fs.unlinkSync(STATE_FILE);
   } catch (e) {}
@@ -201,9 +236,10 @@ function endGame() {
     highScore = score;
     const now = new Date();
     highScoreDate = ("0" + now.getDate()).slice(-2) + "/" + ("0" + (now.getMonth() + 1)).slice(-2) + "/" + now.getFullYear();
-    try {
-      fs.writeFileSync(HIGH_SCORE_FILE, { score: highScore, date: highScoreDate }, "json");
-    } catch (e) {}
+    
+    // Hem yerel dosyaya hem telefona kaydet
+    saveHighScoreLocal();
+    sendHighScoreToPhone();
   }
 
   updateHighScoreDisplay();
@@ -217,7 +253,6 @@ function endGame() {
 }
 
 function resetGame() {
-  // Eski kaydı sil
   try {
     if (fs.existsSync(STATE_FILE)) fs.unlinkSync(STATE_FILE);
   } catch (e) {}
@@ -235,10 +270,7 @@ function resetGame() {
   gameLoop = setInterval(update, 250);
 }
 
-// BAŞLANGIÇTA KONTROL ET
 if (!loadState()) {
-  // Eğer kayıtlı oyun yoksa normal menüyü ve yılanı çiz
-  // Ancak gameLoop başlatma, menüde beklesin
   spawnFood(); 
   draw();
 }
