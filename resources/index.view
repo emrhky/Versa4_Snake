@@ -16,4 +16,46 @@
     <rect id="s0" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s1" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s2" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s3" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s4" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s5" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s6" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s7" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s8" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s9" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
     <rect id="s10" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s11" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s12" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s13" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s14" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s15" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s16" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s17" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s18" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s19" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
     <rect id="s20" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s21" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s22" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s23" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s24" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s25" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s26" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s27" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s28" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s29" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
-    <rect id="s30" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s31" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s32" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s33" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s34" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s35" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s36" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s37" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s38" x="0" y="0" width="14" height="14" fill="#22222
+    <rect id="s30" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s31" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s32" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s33" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s34" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s35" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s36" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s37" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s38" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s39" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+    <rect id="s40" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s41" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s42" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s43" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s44" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s45" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s46" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s47" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s48" x="0" y="0" width="14" height="14" fill="#222222" display="none" /><rect id="s49" x="0" y="0" width="14" height="14" fill="#222222" display="none" />
+  </g>
+
+  <rect id="up" x="0" y="0" width="100%" height="25%" fill="white" opacity="0" pointer-events="all" />
+  <rect id="down" x="0" y="75%" width="100%" height="25%" fill="white" opacity="0" pointer-events="all" />
+  <rect id="left" x="0" y="25%" width="25%" height="50%" fill="white" opacity="0" pointer-events="all" />
+  <rect id="right" x="75%" y="25%" width="25%" height="50%" fill="white" opacity="0" pointer-events="all" />
+
+  <g id="menu-container" display="inline">
+    <rect x="0" y="0" width="100%" height="100%" fill="#94af1c" pointer-events="visible" />
+    
+    <text id="menu-clock" x="34%" y="20" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle">00:00</text>
+    
+    <text x="43%" y="80" fill="#222222" font-size="44" font-family="System-Bold" text-anchor="middle">SNAKE</text>
+    <g transform="translate(225, 45)">
+        <rect x="0" y="0" width="13" height="13" fill="#222222" />
+        <rect x="14" y="0" width="13" height="13" fill="#222222" />
+        <rect x="14" y="14" width="13" height="13" fill="#222222" />
+        <rect x="14" y="28" width="13" height="13" fill="#222222" />
+        <rect x="28" y="28" width="13" height="13" fill="#222222" />
+    </g>
+    
+    <g id="btn-mode" pointer-events="all">
+        <rect x="20%" y="110" width="60%" height="60" fill="white" opacity="0" />
+        <text x="50%" y="130" fill="#222222" font-size="24" font-family="System-Bold" text-anchor="middle">OYUN MODU</text>
+        
+        <text id="mode-value" x="50%" y="160" fill="#222222" font-size="24" text-anchor="middle" text-length="40">&lt; KLASİK &gt;</text>
+    </g>
+
+    <rect id="separator-line" x="15%" y="180" width="70%" height="2" fill="#222222" />
+
+    <text id="record-classic" x="50%" y="210" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle" text-length="40">REKOR KLASİK: 0</text>
+    <text id="record-nowall" x="50%" y="235" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle" text-length="40">REKOR DUVARSIZ: 0</text>
+    
+    <text id="last-score-text" x="50%" y="260" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle" display="none" text-length="40">SKORUN: 0</text>
+    
+    <g id="btn-start" pointer-events="all">
+      <rect x="15%" y="245" width="70%" height="55" rx="15" fill="#222222" />
+      <text id="btn-text" x="50%" y="282" fill="#94af1c" font-size="26" font-family="System-Bold" text-anchor="middle" pointer-events="none" text-length="12">YENİ OYUN</text>
+    </g>
+  </g>
+</svg>
