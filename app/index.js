@@ -3,13 +3,17 @@ import clock from "clock";
 import * as fs from "fs";
 import { me } from "appbit";
 import * as messaging from "messaging";
+import { display } from "display"; // Ekran kontrolü eklendi
 
-// AYARLAR (GÜNCELLENDİ: Daha fazla alan)
+// EKRAN KAPANMASINI ENGELLE
+display.autoOff = false;
+
+// AYARLAR
 const GRID_SIZE = 15; 
-const ROWS = 20;      // 19'dan 20'ye çıktı (Oyun alanı büyüdü)
+const ROWS = 20;      
 const COLS = 21;      
 const X_OFFSET = 10;
-const Y_OFFSET = 25;  // 40'tan 25'e indi (Üst bar daraldı)
+const Y_OFFSET = 25;  
 const MAX_SNAKE_LENGTH = 50; 
 
 const HIGH_SCORE_FILE = "highscore_v2.json";
@@ -22,9 +26,9 @@ let dir = {x: 0, y: -1};
 let score = 0;
 let gameLoop = null;
 let isGameRunning = false;
-let isWallWrapEnabled = false; // False = Klasik, True = Duvar Yok
+let isWallWrapEnabled = false; 
 
-// AYRI SKORLAR
+// SKORLAR
 let highScoreClassic = 0;
 let dateClassic = "";
 let highScoreNoWall = 0;
@@ -36,14 +40,17 @@ const menuClock = document.getElementById("menu-clock");
 const foodEl = document.getElementById("food");
 const scoreEl = document.getElementById("score-text");
 const menuContainer = document.getElementById("menu-container");
-const highScoreText = document.getElementById("high-score-text");
+
+// Yeni Skor Elementleri (Alt alta iki tane)
+const textRecordClassic = document.getElementById("record-classic");
+const textRecordNoWall = document.getElementById("record-nowall");
+
 const lastScoreText = document.getElementById("last-score-text");
 const btnText = document.getElementById("btn-text");
 const btnStart = document.getElementById("btn-start");
 
-// Yeni Mod Elementleri (Text tabanlı)
 const btnMode = document.getElementById("btn-mode");
-const modeValueText = document.getElementById("mode-value"); // Değişen yazı
+const modeValueText = document.getElementById("mode-value");
 
 // --- SKOR YÖNETİMİ ---
 function loadLocalHighScores() {
@@ -103,16 +110,14 @@ function sendScoreToPhone(score, date, mode) {
   }
 }
 
+// İKİ SKORU DA GÖSTERME FONKSİYONU
 function updateHighScoreDisplay() {
-  if (!highScoreText) return;
-  
-  let currentScore = isWallWrapEnabled ? highScoreNoWall : highScoreClassic;
-  let currentDate = isWallWrapEnabled ? dateNoWall : dateClassic;
-  
-  // Ekranda hangi modun rekoru olduğunu belirtiyoruz
-  let label = isWallWrapEnabled ? "REKOR (DUVARSIZ): " : "REKOR (KLASİK): ";
-  
-  highScoreText.text = label + currentScore;
+  if (textRecordClassic) {
+    textRecordClassic.text = "KLASİK: " + highScoreClassic;
+  }
+  if (textRecordNoWall) {
+    textRecordNoWall.text = "DUVARSIZ: " + highScoreNoWall;
+  }
 }
 
 // SAAT
@@ -144,24 +149,20 @@ if (btnStart) {
   btnStart.onclick = () => resetGame();
 }
 
-// MOD DEĞİŞTİRME (TEXT TIKLAMA)
+// MOD DEĞİŞTİRME
 if (btnMode) {
   btnMode.onclick = () => {
     if (!isGameRunning) {
       isWallWrapEnabled = !isWallWrapEnabled;
       updateModeVisual();
-      updateHighScoreDisplay(); // Rekoru güncelle
     }
   };
 }
 
 function updateModeVisual() {
   if (modeValueText) {
-    // True ise Duvar Yok, False ise Klasik yaz
+    // Sadece yazıyı değiştir, renk standart kalsın
     modeValueText.text = isWallWrapEnabled ? "DUVAR YOK" : "KLASİK";
-    
-    // Görsel geri bildirim için renk değişimi (Opsiyonel estetik)
-    modeValueText.style.fill = isWallWrapEnabled ? "#d13838" : "#222222"; 
   }
 }
 
