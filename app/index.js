@@ -3,9 +3,9 @@ import clock from "clock";
 import * as fs from "fs";
 import { me } from "appbit";
 import * as messaging from "messaging";
-import { display } from "display"; // Ekran kontrolü eklendi
+import { display } from "display"; 
 
-// EKRAN KAPANMASINI ENGELLE
+// EKRAN KAPANMASIN (Nokia 3310 gibi hep açık)
 display.autoOff = false;
 
 // AYARLAR
@@ -41,14 +41,13 @@ const foodEl = document.getElementById("food");
 const scoreEl = document.getElementById("score-text");
 const menuContainer = document.getElementById("menu-container");
 
-// Yeni Skor Elementleri (Alt alta iki tane)
+// Skor Elementleri
 const textRecordClassic = document.getElementById("record-classic");
 const textRecordNoWall = document.getElementById("record-nowall");
-
 const lastScoreText = document.getElementById("last-score-text");
+
 const btnText = document.getElementById("btn-text");
 const btnStart = document.getElementById("btn-start");
-
 const btnMode = document.getElementById("btn-mode");
 const modeValueText = document.getElementById("mode-value");
 
@@ -110,13 +109,13 @@ function sendScoreToPhone(score, date, mode) {
   }
 }
 
-// İKİ SKORU DA GÖSTERME FONKSİYONU
+// GÜNCEL SKOR GÖSTERİMİ
 function updateHighScoreDisplay() {
   if (textRecordClassic) {
-    textRecordClassic.text = "KLASİK: " + highScoreClassic;
+    textRecordClassic.text = "REKOR KLASİK: " + highScoreClassic;
   }
   if (textRecordNoWall) {
-    textRecordNoWall.text = "DUVARSIZ: " + highScoreNoWall;
+    textRecordNoWall.text = "REKOR DUVARSIZ: " + highScoreNoWall;
   }
 }
 
@@ -161,7 +160,6 @@ if (btnMode) {
 
 function updateModeVisual() {
   if (modeValueText) {
-    // Sadece yazıyı değiştir, renk standart kalsın
     modeValueText.text = isWallWrapEnabled ? "DUVAR YOK" : "KLASİK";
   }
 }
