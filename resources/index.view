@@ -30,19 +30,25 @@
     
     <text id="menu-clock" x="12%" y="32" fill="#222222" font-size="24" font-family="System-Bold" text-anchor="start">00:00</text>
     
-    <text x="50%" y="100" fill="#222222" font-size="44" font-family="System-Bold" text-anchor="middle">SNAKE</text>
+    <text x="42%" y="100" fill="#222222" font-size="44" font-family="System-Bold" text-anchor="middle">SNAKE</text>
+    
+    <g transform="translate(205, 65)">
+        <rect x="0" y="0" width="13" height="13" fill="#222222" />
+        <rect x="14" y="0" width="13" height="13" fill="#222222" />
+        <rect x="14" y="14" width="13" height="13" fill="#222222" />
+        <rect x="14" y="28" width="13" height="13" fill="#222222" />
+        <rect x="28" y="28" width="13" height="13" fill="#222222" />
+    </g>
     
     <g id="btn-mode" pointer-events="all">
-        <rect x="25%" y="130" width="50%" height="50" fill="white" opacity="0" />
+        <rect x="20%" y="130" width="60%" height="50" fill="white" opacity="0" />
         
-        <rect x="30%" y="140" width="24" height="24" rx="5" fill="#94af1c" stroke="#222222" stroke-width="3" />
-        
-        <rect id="mode-check" x="30%+5" y="140+5" width="14" height="14" rx="2" fill="#222222" display="none" pointer-events="none" />
-        
-        <text x="43%" y="160" fill="#222222" font-size="24" text-anchor="start" pointer-events="none">Duvar Yok</text>
+        <rect x="32%" y="140" width="24" height="24" rx="5" fill="#94af1c" stroke="#222222" stroke-width="3" />
+        <rect id="mode-check" x="32%+5" y="140+5" width="14" height="14" rx="2" fill="#222222" display="none" pointer-events="none" />
+        <text x="45%" y="160" fill="#222222" font-size="24" text-anchor="start" pointer-events="none">Duvar Yok</text>
     </g>
 
-    <text id="high-score-text" x="50%" y="210" fill="#222222" font-size="22" text-anchor="middle" text-length="40">EN YÜKSEK: 0</text>
+    <text id="high-score-text" x="50%" y="210" fill="#222222" font-size="22" text-anchor="middle" text-length="40">KLASİK: 0</text>
     <text id="last-score-text" x="50%" y="235" fill="#222222" font-size="22" text-anchor="middle" display="none" text-length="40">SKORUN: 0</text>
     
     <g id="btn-start" pointer-events="all">
