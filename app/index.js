@@ -5,7 +5,7 @@ import { me } from "appbit";
 import * as messaging from "messaging";
 import { display } from "display"; 
 
-// EKRAN KAPANMASIN (Nokia 3310 gibi hep açık)
+// EKRAN KAPANMASIN
 display.autoOff = false;
 
 // AYARLAR
@@ -41,7 +41,6 @@ const foodEl = document.getElementById("food");
 const scoreEl = document.getElementById("score-text");
 const menuContainer = document.getElementById("menu-container");
 
-// Skor Elementleri
 const textRecordClassic = document.getElementById("record-classic");
 const textRecordNoWall = document.getElementById("record-nowall");
 const lastScoreText = document.getElementById("last-score-text");
@@ -109,7 +108,6 @@ function sendScoreToPhone(score, date, mode) {
   }
 }
 
-// GÜNCEL SKOR GÖSTERİMİ
 function updateHighScoreDisplay() {
   if (textRecordClassic) {
     textRecordClassic.text = "REKOR KLASİK: " + highScoreClassic;
@@ -160,7 +158,9 @@ if (btnMode) {
 
 function updateModeVisual() {
   if (modeValueText) {
-    modeValueText.text = isWallWrapEnabled ? "DUVAR YOK" : "KLASİK";
+    // OK İŞARETLERİ EKLENDİ (< >)
+    // Bu sayede kullanıcı değiştirilebileceğini anlar
+    modeValueText.text = isWallWrapEnabled ? "< DUVAR YOK >" : "< KLASİK >";
   }
 }
 
