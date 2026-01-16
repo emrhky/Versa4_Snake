@@ -4,15 +4,15 @@ import * as fs from "fs";
 import { me } from "appbit";
 import * as messaging from "messaging";
 
-// AYARLAR
+// AYARLAR (GÜNCELLENDİ: Daha fazla alan)
 const GRID_SIZE = 15; 
-const ROWS = 19;      
+const ROWS = 20;      // 19'dan 20'ye çıktı (Oyun alanı büyüdü)
 const COLS = 21;      
 const X_OFFSET = 10;
-const Y_OFFSET = 40;  
+const Y_OFFSET = 25;  // 40'tan 25'e indi (Üst bar daraldı)
 const MAX_SNAKE_LENGTH = 50; 
 
-const HIGH_SCORE_FILE = "highscore_v2.json"; // Dosya adını değiştirdim, temiz sayfa açalım
+const HIGH_SCORE_FILE = "highscore_v2.json";
 const STATE_FILE = "gamestate.json";
 
 // DEĞİŞKENLER
@@ -22,7 +22,7 @@ let dir = {x: 0, y: -1};
 let score = 0;
 let gameLoop = null;
 let isGameRunning = false;
-let isWallWrapEnabled = false;
+let isWallWrapEnabled = false; // False = Klasik, True = Duvar Yok
 
 // AYRI SKORLAR
 let highScoreClassic = 0;
@@ -40,8 +40,10 @@ const highScoreText = document.getElementById("high-score-text");
 const lastScoreText = document.getElementById("last-score-text");
 const btnText = document.getElementById("btn-text");
 const btnStart = document.getElementById("btn-start");
+
+// Yeni Mod Elementleri (Text tabanlı)
 const btnMode = document.getElementById("btn-mode");
-const modeCheck = document.getElementById("mode-check");
+const modeValueText = document.getElementById("mode-value"); // Değişen yazı
 
 // --- SKOR YÖNETİMİ ---
 function loadLocalHighScores() {
@@ -54,7 +56,6 @@ function loadLocalHighScores() {
       dateNoWall = data.nowall?.date || "";
     }
   } catch (e) { 
-    // Hata varsa sıfırla
     highScoreClassic = 0; highScoreNoWall = 0; 
   }
   updateHighScoreDisplay();
@@ -68,12 +69,10 @@ messaging.peerSocket.onopen = () => {
 
 messaging.peerSocket.onmessage = (evt) => {
   if (evt.data && evt.data.command === "RESTORE_HIGHSCORE") {
-    // Klasik Skor Kontrolü
     if (evt.data.classic.score > highScoreClassic) {
       highScoreClassic = evt.data.classic.score;
       dateClassic = evt.data.classic.date;
     }
-    // Duvar Yok Skor Kontrolü
     if (evt.data.nowall.score > highScoreNoWall) {
       highScoreNoWall = evt.data.nowall.score;
       dateNoWall = evt.data.nowall.date;
@@ -99,21 +98,21 @@ function sendScoreToPhone(score, date, mode) {
       command: "SAVE_HIGHSCORE",
       score: score,
       date: date,
-      mode: mode // "classic" veya "nowall"
+      mode: mode 
     });
   }
 }
 
-// Ekranda hangi skoru göstereceğiz?
-// Eğer Duvar Yok seçiliyse onun rekorunu, değilse klasiği göster.
 function updateHighScoreDisplay() {
   if (!highScoreText) return;
   
   let currentScore = isWallWrapEnabled ? highScoreNoWall : highScoreClassic;
   let currentDate = isWallWrapEnabled ? dateNoWall : dateClassic;
-  let modeName = isWallWrapEnabled ? "DUVARSIZ: " : "KLASİK: ";
   
-  highScoreText.text = modeName + currentScore + (currentDate ? " (" + currentDate + ")" : "");
+  // Ekranda hangi modun rekoru olduğunu belirtiyoruz
+  let label = isWallWrapEnabled ? "REKOR (DUVARSIZ): " : "REKOR (KLASİK): ";
+  
+  highScoreText.text = label + currentScore;
 }
 
 // SAAT
@@ -145,19 +144,24 @@ if (btnStart) {
   btnStart.onclick = () => resetGame();
 }
 
+// MOD DEĞİŞTİRME (TEXT TIKLAMA)
 if (btnMode) {
   btnMode.onclick = () => {
     if (!isGameRunning) {
       isWallWrapEnabled = !isWallWrapEnabled;
       updateModeVisual();
-      updateHighScoreDisplay(); // Mod değişince ekrandaki rekoru da değiştir
+      updateHighScoreDisplay(); // Rekoru güncelle
     }
   };
 }
 
 function updateModeVisual() {
-  if (modeCheck) {
-    modeCheck.style.display = isWallWrapEnabled ? "inline" : "none";
+  if (modeValueText) {
+    // True ise Duvar Yok, False ise Klasik yaz
+    modeValueText.text = isWallWrapEnabled ? "DUVAR YOK" : "KLASİK";
+    
+    // Görsel geri bildirim için renk değişimi (Opsiyonel estetik)
+    modeValueText.style.fill = isWallWrapEnabled ? "#d13838" : "#222222"; 
   }
 }
 
@@ -229,7 +233,7 @@ function draw() {
   });
 }
 
-// STATE (Kaldığın Yerden Devam)
+// STATE
 function saveState() {
   if (isGameRunning) {
     const gameState = {
@@ -260,7 +264,7 @@ function loadState() {
       isWallWrapEnabled = data.wallMode || false;
       
       updateModeVisual();
-      updateHighScoreDisplay(); // Mod yüklendiği için skoru güncelle
+      updateHighScoreDisplay();
       
       if (scoreEl) scoreEl.text = "SKOR: " + score;
       if (menuContainer) menuContainer.style.display = "none";
@@ -289,7 +293,6 @@ function endGame() {
     if (fs.existsSync(STATE_FILE)) fs.unlinkSync(STATE_FILE);
   } catch (e) {}
 
-  // Skor Kaydetme (Hangi moddaysak onu kaydet)
   const now = new Date();
   const dateStr = ("0" + now.getDate()).slice(-2) + "/" + ("0" + (now.getMonth() + 1)).slice(-2) + "/" + now.getFullYear();
 
