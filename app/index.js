@@ -24,7 +24,7 @@ let highScore = 0;
 let highScoreDate = "";
 let gameLoop = null;
 let isGameRunning = false;
-let isWallWrapEnabled = false; // Duvar Yok modu aktif mi?
+let isWallWrapEnabled = false;
 
 // ELEMENTLER
 const clockLabel = document.getElementById("clock-label");
@@ -35,10 +35,10 @@ const menuContainer = document.getElementById("menu-container");
 const highScoreText = document.getElementById("high-score-text");
 const lastScoreText = document.getElementById("last-score-text");
 const btnText = document.getElementById("btn-text");
-const btnStart = document.getElementById("btn-start");
+const btnStart = document.getElementById("btn-start"); // Grup elementi
 
-// Yeni Mod Elementleri
-const btnMode = document.getElementById("btn-mode");
+// Mod Butonları
+const btnMode = document.getElementById("btn-mode"); // Grup elementi
 const modeCheck = document.getElementById("mode-check");
 
 // --- SKOR YÖNETİMİ ---
@@ -117,12 +117,16 @@ document.getElementById("down").onclick = () => setDir(0, 1);
 document.getElementById("left").onclick = () => setDir(-1, 0);
 document.getElementById("right").onclick = () => setDir(1, 0);
 
-if (btnStart) btnStart.onclick = () => resetGame();
+// BUTON TIKLAMALARI
+if (btnStart) {
+  btnStart.onclick = () => {
+    resetGame();
+  };
+}
 
-// MOD BUTONU TIKLAMA
 if (btnMode) {
   btnMode.onclick = () => {
-    // Sadece oyun oynanmıyorken (menüdeyken) değiştirilebilir
+    // Sadece oyun oynanmıyorken çalışır
     if (!isGameRunning) {
       isWallWrapEnabled = !isWallWrapEnabled;
       updateModeVisual();
@@ -132,6 +136,7 @@ if (btnMode) {
 
 function updateModeVisual() {
   if (modeCheck) {
+    // Checkbox görünürlüğünü ayarla
     modeCheck.style.display = isWallWrapEnabled ? "inline" : "none";
   }
 }
@@ -166,20 +171,19 @@ function update() {
   
   // DUVAR YOK MODU KONTROLÜ
   if (isWallWrapEnabled) {
-    // Haritanın dışına çıkarsa diğer taraftan gir
     if (nextX < 0) nextX = COLS - 1;
     else if (nextX >= COLS) nextX = 0;
     
     if (nextY < 0) nextY = ROWS - 1;
     else if (nextY >= ROWS) nextY = 0;
   } else {
-    // Klasik Mod: Duvara çarpınca öl
+    // Klasik Mod
     if (nextX < 0 || nextX >= COLS || nextY < 0 || nextY >= ROWS) return endGame();
   }
 
   const head = { x: nextX, y: nextY };
   
-  // Kendine çarpma kontrolü
+  // Kendine çarpma
   for (let i = 0; i < snake.length; i++) {
     if (snake[i].x === head.x && snake[i].y === head.y) return endGame();
   }
@@ -209,7 +213,7 @@ function draw() {
   });
 }
 
-// OYUN DURUMUNU KAYDET (Bildirim gelirse diye)
+// OYUNU KAYDET
 function saveState() {
   if (isGameRunning) {
     const gameState = {
@@ -217,7 +221,7 @@ function saveState() {
       food: food,
       dir: dir,
       score: score,
-      wallMode: isWallWrapEnabled // Modu da kaydet
+      wallMode: isWallWrapEnabled
     };
     try {
       fs.writeFileSync(STATE_FILE, gameState, "json");
@@ -237,9 +241,9 @@ function loadState() {
       food = data.food;
       dir = data.dir;
       score = data.score;
-      isWallWrapEnabled = data.wallMode || false; // Modu geri yükle
+      isWallWrapEnabled = data.wallMode || false;
       
-      updateModeVisual(); // Kutucuğu güncelle
+      updateModeVisual();
       
       if (scoreEl) scoreEl.text = "SKOR: " + score;
       if (menuContainer) menuContainer.style.display = "none";
@@ -283,11 +287,10 @@ function endGame() {
     lastScoreText.style.display = "inline";
   }
   
-  // Oyun bittiğinde menüyü göster
   if (btnText) btnText.text = "YENİ OYUN"; 
   if (menuContainer) menuContainer.style.display = "inline";
   
-  // Kutucuğun durumunu menüye yansıt (kullanıcı değiştirebilsin diye)
+  // Mod seçimini tekrar serbest bırak ve güncelle
   updateModeVisual();
 }
 
@@ -301,8 +304,6 @@ function resetGame() {
   score = 0;
   isGameRunning = true;
   
-  // Seçili modu koruyoruz (değiştirmiyoruz, kullanıcı menüde ne seçtiyse o)
-  
   if (scoreEl) scoreEl.text = "SKOR: 0";
   if (menuContainer) menuContainer.style.display = "none";
   
@@ -311,8 +312,9 @@ function resetGame() {
   gameLoop = setInterval(update, 250);
 }
 
+// İlk açılış
 if (!loadState()) {
-  updateModeVisual(); // Varsayılan durumu göster (Boş kutu)
+  updateModeVisual();
   spawnFood(); 
   draw();
 }
