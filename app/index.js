@@ -12,7 +12,7 @@ const X_OFFSET = 10;
 const Y_OFFSET = 40;  
 const MAX_SNAKE_LENGTH = 50; 
 
-const HIGH_SCORE_FILE = "highscore.json";
+const HIGH_SCORE_FILE = "highscore_v2.json"; // Dosya adını değiştirdim, temiz sayfa açalım
 const STATE_FILE = "gamestate.json";
 
 // DEĞİŞKENLER
@@ -20,11 +20,15 @@ let snake = [{x: 10, y: 10}, {x: 10, y: 11}, {x: 10, y: 12}];
 let food = {x: 5, y: 5};
 let dir = {x: 0, y: -1}; 
 let score = 0;
-let highScore = 0;
-let highScoreDate = "";
 let gameLoop = null;
 let isGameRunning = false;
 let isWallWrapEnabled = false;
+
+// AYRI SKORLAR
+let highScoreClassic = 0;
+let dateClassic = "";
+let highScoreNoWall = 0;
+let dateNoWall = "";
 
 // ELEMENTLER
 const clockLabel = document.getElementById("clock-label");
@@ -35,25 +39,28 @@ const menuContainer = document.getElementById("menu-container");
 const highScoreText = document.getElementById("high-score-text");
 const lastScoreText = document.getElementById("last-score-text");
 const btnText = document.getElementById("btn-text");
-const btnStart = document.getElementById("btn-start"); // Grup elementi
-
-// Mod Butonları
-const btnMode = document.getElementById("btn-mode"); // Grup elementi
+const btnStart = document.getElementById("btn-start");
+const btnMode = document.getElementById("btn-mode");
 const modeCheck = document.getElementById("mode-check");
 
 // --- SKOR YÖNETİMİ ---
-function loadLocalHighScore() {
+function loadLocalHighScores() {
   try {
     if (fs.existsSync(HIGH_SCORE_FILE)) {
       const data = fs.readFileSync(HIGH_SCORE_FILE, "json");
-      highScore = data.score || 0;
-      highScoreDate = data.date || "";
+      highScoreClassic = data.classic?.score || 0;
+      dateClassic = data.classic?.date || "";
+      highScoreNoWall = data.nowall?.score || 0;
+      dateNoWall = data.nowall?.date || "";
     }
-  } catch (e) { highScore = 0; highScoreDate = ""; }
+  } catch (e) { 
+    // Hata varsa sıfırla
+    highScoreClassic = 0; highScoreNoWall = 0; 
+  }
   updateHighScoreDisplay();
 }
 
-loadLocalHighScore();
+loadLocalHighScores();
 
 messaging.peerSocket.onopen = () => {
   messaging.peerSocket.send({ command: "GET_HIGHSCORE" });
@@ -61,35 +68,52 @@ messaging.peerSocket.onopen = () => {
 
 messaging.peerSocket.onmessage = (evt) => {
   if (evt.data && evt.data.command === "RESTORE_HIGHSCORE") {
-    if (evt.data.score > highScore) {
-      highScore = evt.data.score;
-      highScoreDate = evt.data.date;
-      saveHighScoreLocal();
-      updateHighScoreDisplay();
+    // Klasik Skor Kontrolü
+    if (evt.data.classic.score > highScoreClassic) {
+      highScoreClassic = evt.data.classic.score;
+      dateClassic = evt.data.classic.date;
     }
+    // Duvar Yok Skor Kontrolü
+    if (evt.data.nowall.score > highScoreNoWall) {
+      highScoreNoWall = evt.data.nowall.score;
+      dateNoWall = evt.data.nowall.date;
+    }
+    saveHighScoresLocal();
+    updateHighScoreDisplay();
   }
 };
 
-function saveHighScoreLocal() {
+function saveHighScoresLocal() {
+  const data = {
+    classic: { score: highScoreClassic, date: dateClassic },
+    nowall: { score: highScoreNoWall, date: dateNoWall }
+  };
   try {
-    fs.writeFileSync(HIGH_SCORE_FILE, { score: highScore, date: highScoreDate }, "json");
+    fs.writeFileSync(HIGH_SCORE_FILE, data, "json");
   } catch (e) {}
 }
 
-function sendHighScoreToPhone() {
+function sendScoreToPhone(score, date, mode) {
   if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
     messaging.peerSocket.send({
       command: "SAVE_HIGHSCORE",
-      score: highScore,
-      date: highScoreDate
+      score: score,
+      date: date,
+      mode: mode // "classic" veya "nowall"
     });
   }
 }
 
+// Ekranda hangi skoru göstereceğiz?
+// Eğer Duvar Yok seçiliyse onun rekorunu, değilse klasiği göster.
 function updateHighScoreDisplay() {
-  if (highScoreText) {
-    highScoreText.text = "EN YÜKSEK: " + highScore + (highScoreDate ? " (" + highScoreDate + ")" : "");
-  }
+  if (!highScoreText) return;
+  
+  let currentScore = isWallWrapEnabled ? highScoreNoWall : highScoreClassic;
+  let currentDate = isWallWrapEnabled ? dateNoWall : dateClassic;
+  let modeName = isWallWrapEnabled ? "DUVARSIZ: " : "KLASİK: ";
+  
+  highScoreText.text = modeName + currentScore + (currentDate ? " (" + currentDate + ")" : "");
 }
 
 // SAAT
@@ -117,26 +141,22 @@ document.getElementById("down").onclick = () => setDir(0, 1);
 document.getElementById("left").onclick = () => setDir(-1, 0);
 document.getElementById("right").onclick = () => setDir(1, 0);
 
-// BUTON TIKLAMALARI
 if (btnStart) {
-  btnStart.onclick = () => {
-    resetGame();
-  };
+  btnStart.onclick = () => resetGame();
 }
 
 if (btnMode) {
   btnMode.onclick = () => {
-    // Sadece oyun oynanmıyorken çalışır
     if (!isGameRunning) {
       isWallWrapEnabled = !isWallWrapEnabled;
       updateModeVisual();
+      updateHighScoreDisplay(); // Mod değişince ekrandaki rekoru da değiştir
     }
   };
 }
 
 function updateModeVisual() {
   if (modeCheck) {
-    // Checkbox görünürlüğünü ayarla
     modeCheck.style.display = isWallWrapEnabled ? "inline" : "none";
   }
 }
@@ -169,21 +189,17 @@ function update() {
   let nextX = snake[0].x + dir.x;
   let nextY = snake[0].y + dir.y;
   
-  // DUVAR YOK MODU KONTROLÜ
   if (isWallWrapEnabled) {
     if (nextX < 0) nextX = COLS - 1;
     else if (nextX >= COLS) nextX = 0;
-    
     if (nextY < 0) nextY = ROWS - 1;
     else if (nextY >= ROWS) nextY = 0;
   } else {
-    // Klasik Mod
     if (nextX < 0 || nextX >= COLS || nextY < 0 || nextY >= ROWS) return endGame();
   }
 
   const head = { x: nextX, y: nextY };
   
-  // Kendine çarpma
   for (let i = 0; i < snake.length; i++) {
     if (snake[i].x === head.x && snake[i].y === head.y) return endGame();
   }
@@ -213,7 +229,7 @@ function draw() {
   });
 }
 
-// OYUNU KAYDET
+// STATE (Kaldığın Yerden Devam)
 function saveState() {
   if (isGameRunning) {
     const gameState = {
@@ -225,7 +241,7 @@ function saveState() {
     };
     try {
       fs.writeFileSync(STATE_FILE, gameState, "json");
-    } catch (e) { console.log("Kayıt hatası: " + e); }
+    } catch (e) {}
   } else {
     try {
       if (fs.existsSync(STATE_FILE)) fs.unlinkSync(STATE_FILE);
@@ -244,6 +260,7 @@ function loadState() {
       isWallWrapEnabled = data.wallMode || false;
       
       updateModeVisual();
+      updateHighScoreDisplay(); // Mod yüklendiği için skoru güncelle
       
       if (scoreEl) scoreEl.text = "SKOR: " + score;
       if (menuContainer) menuContainer.style.display = "none";
@@ -256,7 +273,7 @@ function loadState() {
       gameLoop = setInterval(update, 250);
       return true;
     }
-  } catch (e) { console.log("Yükleme hatası: " + e); }
+  } catch (e) { }
   return false;
 }
 
@@ -272,16 +289,32 @@ function endGame() {
     if (fs.existsSync(STATE_FILE)) fs.unlinkSync(STATE_FILE);
   } catch (e) {}
 
-  if (score > highScore) {
-    highScore = score;
-    const now = new Date();
-    highScoreDate = ("0" + now.getDate()).slice(-2) + "/" + ("0" + (now.getMonth() + 1)).slice(-2) + "/" + now.getFullYear();
-    
-    saveHighScoreLocal();
-    sendHighScoreToPhone();
+  // Skor Kaydetme (Hangi moddaysak onu kaydet)
+  const now = new Date();
+  const dateStr = ("0" + now.getDate()).slice(-2) + "/" + ("0" + (now.getMonth() + 1)).slice(-2) + "/" + now.getFullYear();
+
+  let updated = false;
+  
+  if (isWallWrapEnabled) {
+    if (score > highScoreNoWall) {
+      highScoreNoWall = score;
+      dateNoWall = dateStr;
+      sendScoreToPhone(score, dateStr, "nowall");
+      updated = true;
+    }
+  } else {
+    if (score > highScoreClassic) {
+      highScoreClassic = score;
+      dateClassic = dateStr;
+      sendScoreToPhone(score, dateStr, "classic");
+      updated = true;
+    }
   }
 
+  if (updated) saveHighScoresLocal();
+
   updateHighScoreDisplay();
+  
   if (lastScoreText) {
     lastScoreText.text = "SKORUN: " + score;
     lastScoreText.style.display = "inline";
@@ -290,7 +323,6 @@ function endGame() {
   if (btnText) btnText.text = "YENİ OYUN"; 
   if (menuContainer) menuContainer.style.display = "inline";
   
-  // Mod seçimini tekrar serbest bırak ve güncelle
   updateModeVisual();
 }
 
@@ -312,9 +344,9 @@ function resetGame() {
   gameLoop = setInterval(update, 250);
 }
 
-// İlk açılış
 if (!loadState()) {
   updateModeVisual();
+  updateHighScoreDisplay();
   spawnFood(); 
   draw();
 }
