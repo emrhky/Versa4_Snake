@@ -27,6 +27,7 @@ let score = 0;
 let gameLoop = null;
 let isGameRunning = false;
 let isWallWrapEnabled = false; 
+let lastTapTime = 0; // Çift dokunuş için zamanlayıcı
 
 // SKORLAR
 let highScoreClassic = 0;
@@ -110,10 +111,12 @@ function sendScoreToPhone(score, date, mode) {
 
 function updateHighScoreDisplay() {
   if (textRecordClassic) {
-    textRecordClassic.text = "REKOR KLASİK: " + highScoreClassic;
+    // Tarih bilgisi eklendi
+    textRecordClassic.text = "REKOR KLASİK: " + highScoreClassic + (dateClassic ? " (" + dateClassic + ")" : "");
   }
   if (textRecordNoWall) {
-    textRecordNoWall.text = "REKOR DUVARSIZ: " + highScoreNoWall;
+    // Tarih bilgisi eklendi
+    textRecordNoWall.text = "REKOR DUVARSIZ: " + highScoreNoWall + (dateNoWall ? " (" + dateNoWall + ")" : "");
   }
 }
 
@@ -132,8 +135,16 @@ for (let i = 0; i < MAX_SNAKE_LENGTH; i++) {
   if (seg) bodySegments.push(seg);
 }
 
-// YÖN KONTROLÜ
+// YÖN KONTROLÜ VE ÇİFT DOKUNUŞ (PAUSE)
 const setDir = (x, y) => {
+  // Çift dokunuş kontrolü (300ms içinde ikinci tıklama)
+  let now = Date.now();
+  if (isGameRunning && (now - lastTapTime < 300)) {
+    endGame(); // Bekleme ekranına (menüye) dön
+    return;
+  }
+  lastTapTime = now;
+
   if (isGameRunning && dir.x !== -x && dir.y !== -y) dir = {x, y};
 };
 
@@ -158,8 +169,6 @@ if (btnMode) {
 
 function updateModeVisual() {
   if (modeValueText) {
-    // OK İŞARETLERİ EKLENDİ (< >)
-    // Bu sayede kullanıcı değiştirilebileceğini anlar
     modeValueText.text = isWallWrapEnabled ? "< DUVAR YOK >" : "< KLASİK >";
   }
 }
@@ -337,6 +346,7 @@ function resetGame() {
   dir = {x: 0, y: -1};
   score = 0;
   isGameRunning = true;
+  lastTapTime = 0;
   
   if (scoreEl) scoreEl.text = "SKOR: 0";
   if (menuContainer) menuContainer.style.display = "none";
