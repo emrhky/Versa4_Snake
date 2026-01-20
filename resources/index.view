@@ -48,8 +48,8 @@
 
     <rect id="separator-line" x="15%" y="180" width="70%" height="2" fill="#222222" />
 
-    <text id="record-classic" x="50%" y="210" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle" text-length="40">REKOR KLASİK: 0</text>
-    <text id="record-nowall" x="50%" y="235" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle" text-length="40">REKOR DUVARSIZ: 0</text>
+    <text id="record-classic" x="50%" y="210" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle" text-length="60">REKOR KLASİK: 0</text>
+    <text id="record-nowall" x="50%" y="235" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle" text-length="60">REKOR DUVARSIZ: 0</text>
     
     <text id="last-score-text" x="50%" y="260" fill="#222222" font-size="20" font-family="System-Bold" text-anchor="middle" display="none" text-length="40">SKORUN: 0</text>
     
